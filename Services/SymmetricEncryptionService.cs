@@ -18,7 +18,7 @@ public interface ISymmetricEncryptionService
     /// The process of decryption consists of these steps below:
     /// 1) Breaking base64 encoded cipher text into bytes of normal text (normal utf8 string which is encrypted)
     /// 2) Running it through decryption stream
-    /// 3) Assembling byte[] back as a normal string (which is original text)
+    /// 3) Assembling decrypted byte[] back as a normal string (which is original text)
     /// 4) Returning the result
     /// </summary>
     string Decrypt(string cipherText, string? secretKey = null, string? iv = null);

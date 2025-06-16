@@ -11,6 +11,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
 builder.Services.AddSingleton<ISymmetricEncryptionService, SymmetricEncryptionService>();
+builder.Services.AddSingleton<IAsymmetricEncryptionService, AsymmetricEncryptionService>();
 
 var app = builder.Build();
 
@@ -21,6 +22,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.MapGet("/", () => Results.Redirect("/swagger"));
 
 app.UseRouting();
 app.UseHttpsRedirection();
