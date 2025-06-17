@@ -11,12 +11,16 @@ public class HomeController: Controller
 
     private readonly IAsymmetricEncryptionService _asymmetricEncryptionService;
     
+    private readonly IHashingService _hashingService;
+    
     public HomeController(
         ISymmetricEncryptionService symmetricEncryptionService,
-        IAsymmetricEncryptionService asymmetricEncryptionService)
+        IAsymmetricEncryptionService asymmetricEncryptionService,
+        IHashingService hashingService)
     {
         _symmetricEncryptionService = symmetricEncryptionService;
         _asymmetricEncryptionService = asymmetricEncryptionService;
+        _hashingService = hashingService;
     }
     
     [HttpGet]
@@ -47,5 +51,20 @@ public class HomeController: Controller
     public IActionResult AsymmetricDecrypt(string cipherText, string? privateBase64Key = null)
     {
         return Ok(_asymmetricEncryptionService.Decrypt(cipherText, privateBase64Key));
+    }
+    
+    [HttpPost]
+    public IActionResult Hash(string plainText, string? saltString = null, int? keySizeInBits = null, int? iterations = null)
+    {
+        var result = _hashingService.Hash(plainText, saltString, keySizeInBits, iterations);
+        return Ok(new { hash = result.hash, salt = result.salt, keySizeInBits = result.keySizeInBits, iterations = result.iterations });
+    }
+    
+    [HttpPost]
+    public IActionResult Verify(string base64HashString, string rawString, string? saltString = null, int? keySizeInBits = null,
+        int? iterations = null)
+    {
+        var result = _hashingService.Verify(base64HashString, rawString, saltString, keySizeInBits, iterations);
+        return Ok(result);
     }
 }

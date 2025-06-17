@@ -12,6 +12,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddSingleton<ISymmetricEncryptionService, SymmetricEncryptionService>();
 builder.Services.AddSingleton<IAsymmetricEncryptionService, AsymmetricEncryptionService>();
+builder.Services.AddSingleton<IHashingService, HashingService>();
 
 var app = builder.Build();
 
